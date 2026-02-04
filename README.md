@@ -8,6 +8,8 @@ Simple Linear Algebra Library with SVG Manipulation
 pip install vectorizer-svg
 ```
 
+[PyPi](https://pypi.org/project/vectorizer-svg/0.1.1/)
+
 ## Features
 
 - Vectors graph
