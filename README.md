@@ -4,7 +4,6 @@ Simple Linear Algebra Library with SVG Manipulation
 
 ## Installation
 
-
 ```bash
 pip install vectorizer-svg
 ```
@@ -14,6 +13,7 @@ pip install vectorizer-svg
 - Vectors graph
 - Operations on vectors
 - Gradient vector
+- Dot and Cross products
 
 ### Credits :
 

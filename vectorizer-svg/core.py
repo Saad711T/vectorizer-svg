@@ -17,7 +17,6 @@ class Vector:
     def __repr__(self):
         return f"Vector{self.coords}"
 
-    # عمليات أساسية
     def __add__(self, other):
         other = self._coerce(other)
         return Vector(a + b for a, b in zip(self.coords, other.coords))
@@ -112,8 +111,9 @@ def vector_derivative(F, t, h=1e-5):
         ft_minus = Vector(ft_minus)
     return (1.0 / (2*h)) * (ft_plus - ft_minus)
 
+def finite_difference(f, x, h=1e-5):
 
-
+    return (f(x + h) - f(x - h)) / (2*h)
 
 
 def plot_vectors(vectors, width=600, height=600, padding=60,
