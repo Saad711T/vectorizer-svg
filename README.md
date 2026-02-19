@@ -2,6 +2,8 @@
 
 Simple Linear Algebra Library with SVG Manipulation
 
+![Banner](imgs/vectorizer-svg.png)
+
 ## Installation
 
 ```bash
