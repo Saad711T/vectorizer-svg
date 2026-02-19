@@ -1,9 +1,0 @@
-dist/
-
-build/
-
-.vscode
-
-PKG-INFO
-*.egg-info/
-__pycache__/
