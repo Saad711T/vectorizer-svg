@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vectorizer-svg | Lightweight Linear Algebra Library</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #a3a2a2;
+    color: #333;
+
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+}
+
+header {
+    background-color: #33696f;
+    color: white;
+    padding: 20px 10px;
+    text-align: center;
+    font-family: monospace;
+}
+
+header h1 {
+    margin: 0;
+}
+
+.container {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #0078d7;
+    color: white;
+    width: 100%;
+    font-family: monospace;
+}
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to Vectorizer-svg website</h1>
+    </header>
+    <div class="container">
+        <div id="about" class="section">
+            <h2>About Vectorizer-svg</h2>
+            <p>A lightweight linear algebra library (especially for vectors), focused on graphing and derivatives.</p>
+        </div>
+        <div id="features" class="section">
+            <h2>Install the library</h2>
+            <p>To install the vectorizer-svg library, run the following command in your terminal:</p>
+            <code>pip install vectorizer-svg</code>
+        </div>
+
+        <h4>Modules in the library :</h4>
+<ul>
+  <li><code>Vector</code> : Used to create vectors</li>
+  <li><code>gradient</code> : Used to create gradient vector</li>
+  <li><code>vector_derivative</code> : Used to derivativing vectors</li>
+  <li><code>plot_vectors</code> : Used to plotting vectors</li>
+</ul>
+
+        <div id="source-code" class="section">
+            <h2>See the source code for Project</h2>
+            <a href="https://github.com/Saad711T/vectorizer-svg" class="btn">Source code</a>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2026 STACKS the NULLS. All rights reserved.</p>
+    </footer>
+    <script>
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href').substring(1);
+                document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>
