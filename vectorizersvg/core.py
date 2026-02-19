@@ -1,5 +1,15 @@
 from math import sqrt
 
+__all__ = [
+    "Vector",
+    "gradient",
+    "vector_derivative",
+    "finite_difference",
+    "plot_vectors"
+]
+
+
+
 class Vector:
     def __init__(self, *coords):
         if len(coords) == 1 and hasattr(coords[0], "__iter__"):
@@ -19,7 +29,7 @@ class Vector:
 
     def __add__(self, other):
         other = self._coerce(other)
-        return Vector(a + b for a, b in zip(self.coords, other.coords))
+        return Vector(*(a + b for a, b in zip(self.coords, other.coords)))
 
     def __sub__(self, other):
         other = self._coerce(other)
@@ -84,7 +94,7 @@ class Vector:
 
 
 
-def gradient(f, point, h=1e-5):
+def gradient(f: callable, point, h: float = 1e-5) -> Vector:
 
 
     point = tuple(float(x) for x in point)
@@ -114,6 +124,8 @@ def vector_derivative(F, t, h=1e-5):
 def finite_difference(f, x, h=1e-5):
 
     return (f(x + h) - f(x - h)) / (2*h)
+
+
 
 
 def plot_vectors(vectors, width=600, height=600, padding=60,
