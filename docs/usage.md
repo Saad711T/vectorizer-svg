@@ -17,7 +17,7 @@ pip install vectorizer-svg
 After Installing you can use library by command :
 
 ```python
-import vectorizersvg
+from vectorizersvg import Vector, gradient, vector_derivative, finite_difference, plot_vectors, show_vectors
 ```
 
 #### Modules in the library :
@@ -26,6 +26,7 @@ import vectorizersvg
 - `gradient` : Used to create gradient vector
 - `vector_derivative` : Used to derivativing vectors
 - `plot_vectors` : Used to plotting vectors
+- `show_vectors` : Also used to plotting vectors
 
 ## Credits
 
