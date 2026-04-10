@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "vectorizer-svg"
-version = "0.1.3"
-description = "Simple linear algebra library"
+version = "0.1.4"
+description = "Simple linear algebra library especially vectors and gradients."
 authors = [{ name="0xSaad"}]
 readme = "README.md"
 requires-python = ">=3.8"
