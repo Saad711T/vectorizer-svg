@@ -12,7 +12,11 @@ pip install vectorizer-svg
 
 [PyPi](https://pypi.org/project/vectorizer-svg/0.1.1/)
 
+## Docs
+
 [Official website](https://vectorizersvg.netlify.app/)
+
+[Usage.md](https://github.com/Saad711T/vectorizer-svg/blob/main/docs/usage.md)
 
 
 ## Features

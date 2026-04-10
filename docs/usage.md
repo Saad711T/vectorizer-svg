@@ -26,7 +26,7 @@ from vectorizersvg import Vector, gradient, vector_derivative, finite_difference
 - `gradient` : Used to create gradient vector
 - `vector_derivative` : Used to derivativing vectors
 - `plot_vectors` : Used to plotting vectors
-- `show_vectors` : Also used to plotting vectors
+- `show_vectors` : Used to display vectors directly (Jupyter environments)
 
 ## Credits
 
