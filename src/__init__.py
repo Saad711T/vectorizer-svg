@@ -3,7 +3,9 @@ from .core import (
     gradient,
     vector_derivative,
     finite_difference,
-    plot_vectors
+    plot_vectors,
+    show_svg,
+    show_vectors,
 )
 
 __all__ = [
@@ -11,5 +13,7 @@ __all__ = [
     "gradient",
     "vector_derivative",
     "finite_difference",
-    "plot_vectors"
+    "plot_vectors",
+    "show_svg",
+    "show_vectors"
 ]

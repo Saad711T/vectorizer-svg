@@ -1,13 +1,32 @@
 from math import sqrt
 
+try:
+    from IPython.display import SVG, display
+    _HAS_IPYTHON = True
+except ImportError:
+    SVG = None
+    display = None
+    _HAS_IPYTHON = False
+
+
 __all__ = [
     "Vector",
     "gradient",
     "vector_derivative",
     "finite_difference",
-    "plot_vectors"
+    "plot_vectors",
+    "show_svg",
+    "show_vectors"
 ]
 
+
+def show_svg(svg: str):
+    if not _HAS_IPYTHON:
+        raise ImportError(
+            "IPython is required for inline display. "
+            "Install it with: pip install ipython"
+        )
+    display(SVG(svg))
 
 
 class Vector:
@@ -64,19 +83,20 @@ class Vector:
         if len(self) == 3 and len(other) == 3:
             a1, a2, a3 = self.coords
             b1, b2, b3 = other.coords
-            return Vector(a2*b3 - a3*b2,
-                          a3*b1 - a1*b3,
-                          a1*b2 - a2*b1)
+            return Vector(
+                a2 * b3 - a3 * b2,
+                a3 * b1 - a1 * b3,
+                a1 * b2 - a2 * b1
+            )
         elif len(self) == 2 and len(other) == 2:
             a1, a2 = self.coords
             b1, b2 = other.coords
-            return a1*b2 - a2*b1
+            return a1 * b2 - a2 * b1
         else:
             raise ValueError("Cross product defined for 2D (scalar) or 3D vectors.")
 
-    # Norm + Unit Vector
     def norm(self):
-        return sqrt(sum(c*c for c in self.coords))
+        return sqrt(sum(c * c for c in self.coords))
 
     def unit(self):
         n = self.norm()
@@ -93,10 +113,7 @@ class Vector:
             raise ValueError("Cannot project 1D or empty vector to 2D")
 
 
-
 def gradient(f: callable, point, h: float = 1e-5) -> Vector:
-
-
     point = tuple(float(x) for x in point)
     n = len(point)
     partials = []
@@ -111,21 +128,18 @@ def gradient(f: callable, point, h: float = 1e-5) -> Vector:
 
 
 def vector_derivative(F, t, h=1e-5):
-
-
     ft_plus = F(t + h)
     ft_minus = F(t - h)
     if not isinstance(ft_plus, Vector):
         ft_plus = Vector(ft_plus)
     if not isinstance(ft_minus, Vector):
         ft_minus = Vector(ft_minus)
-    return (1.0 / (2*h)) * (ft_plus - ft_minus)
+
+    return (1.0 / (2 * h)) * (ft_plus - ft_minus)
+
 
 def finite_difference(f, x, h=1e-5):
-
-    return (f(x + h) - f(x - h)) / (2*h)
-
-
+    return (f(x + h) - f(x - h)) / (2 * h)
 
 
 def plot_vectors(vectors, width=600, height=600, padding=60,
@@ -135,31 +149,42 @@ def plot_vectors(vectors, width=600, height=600, padding=60,
     vs = [v if isinstance(v, Vector) else Vector(v) for v in vectors]
     vs2d = [v.to2d() for v in vs]
 
-    xs = [0.0]; ys = [0.0]
+    xs = [0.0]
+    ys = [0.0]
     for v in vs2d:
-        xs.append(v.coords[0]); ys.append(v.coords[1])
+        xs.append(v.coords[0])
+        ys.append(v.coords[1])
 
     if axis_range is None:
         xmin, xmax = min(xs), max(xs)
         ymin, ymax = min(ys), max(ys)
 
-        if xmin == xmax: xmin -= 1; xmax += 1
-        if ymin == ymax: ymin -= 1; ymax += 1
+        if xmin == xmax:
+            xmin -= 1
+            xmax += 1
+        if ymin == ymax:
+            ymin -= 1
+            ymax += 1
 
-        dx = xmax - xmin; dy = ymax - ymin
-        xmin -= 0.3 * dx; xmax += 0.3 * dx
-        ymin -= 0.3 * dy; ymax += 0.3 * dy
+        dx = xmax - xmin
+        dy = ymax - ymin
+        xmin -= 0.3 * dx
+        xmax += 0.3 * dx
+        ymin -= 0.3 * dy
+        ymax += 0.3 * dy
     else:
         xmin, xmax, ymin, ymax = axis_range
 
     def map_point(x, y):
-        sx = padding + (x - xmin) / (xmax - xmin) * (width - 2*padding)
-        sy = height - (padding + (y - ymin) / (ymax - ymin) * (height - 2*padding))
+        sx = padding + (x - xmin) / (xmax - xmin) * (width - 2 * padding)
+        sy = height - (padding + (y - ymin) / (ymax - ymin) * (height - 2 * padding))
         return sx, sy
 
     svg = []
-    svg.append(f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" '
-               f'style="font-family: sans-serif;">')
+    svg.append(
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" '
+        f'style="font-family: sans-serif;">'
+    )
 
     svg.append("""
 <defs>
@@ -173,57 +198,57 @@ def plot_vectors(vectors, width=600, height=600, padding=60,
 
     ox, oy = map_point(0, 0)
 
-    xticks = [xmin + i*(xmax-xmin)/(tick_count-1) for i in range(tick_count)]
-    yticks = [ymin + i*(ymax-ymin)/(tick_count-1) for i in range(tick_count)]
+    xticks = [xmin + i * (xmax - xmin) / (tick_count - 1) for i in range(tick_count)]
+    yticks = [ymin + i * (ymax - ymin) / (tick_count - 1) for i in range(tick_count)]
 
     if show_grid:
         for x in xticks:
             sx, _ = map_point(x, 0)
-            svg.append(f'<line x1="{sx}" y1="{padding}" x2="{sx}" y2="{height-padding}" stroke="#eeeeee"/>')
+            svg.append(
+                f'<line x1="{sx}" y1="{padding}" x2="{sx}" y2="{height - padding}" stroke="#eeeeee"/>'
+            )
         for y in yticks:
             _, sy = map_point(0, y)
-            svg.append(f'<line x1="{padding}" y1="{sy}" x2="{width-padding}" y2="{sy}" stroke="#eeeeee"/>')
+            svg.append(
+                f'<line x1="{padding}" y1="{sy}" x2="{width - padding}" y2="{sy}" stroke="#eeeeee"/>'
+            )
 
-
-
-
-    x0,_ = map_point(xmin, 0)
-    x1,_ = map_point(xmax, 0)
-    _,y0 = map_point(0, ymin)
-    _,y1 = map_point(0, ymax)
-
-
-
+    x0, _ = map_point(xmin, 0)
+    x1, _ = map_point(xmax, 0)
+    _, y0 = map_point(0, ymin)
+    _, y1 = map_point(0, ymax)
 
     svg.append(f'<line x1="{x0}" y1="{oy}" x2="{x1}" y2="{oy}" stroke="black" stroke-width="2"/>')
     svg.append(f'<line x1="{ox}" y1="{y0}" x2="{ox}" y2="{y1}" stroke="black" stroke-width="2"/>')
 
-
     for x in xticks:
         sx, sy = map_point(x, 0)
-        svg.append(f'<line x1="{sx}" y1="{oy-5}" x2="{sx}" y2="{oy+5}" stroke="black" stroke-width="1.2"/>')
-        svg.append(f'<text x="{sx-10}" y="{oy+20}" font-size="14" fill="black" font-family="sans-serif">{x:.1f}</text>')
+        svg.append(f'<line x1="{sx}" y1="{oy - 5}" x2="{sx}" y2="{oy + 5}" stroke="black" stroke-width="1.2"/>')
+        svg.append(f'<text x="{sx - 10}" y="{oy + 20}" font-size="14" fill="black" font-family="sans-serif">{x:.1f}</text>')
 
     for y in yticks:
         sx, sy = map_point(0, y)
-        svg.append(f'<line x1="{ox-5}" y1="{sy}" x2="{ox+5}" y2="{sy}" stroke="black" stroke-width="1.2"/>')
-        svg.append(f'<text x="{ox+10}" y="{sy+5}" font-size="14" fill="black" font-family="sans-serif">{y:.1f}</text>')
+        svg.append(f'<line x1="{ox - 5}" y1="{sy}" x2="{ox + 5}" y2="{sy}" stroke="black" stroke-width="1.2"/>')
+        svg.append(f'<text x="{ox + 10}" y="{sy + 5}" font-size="14" fill="black" font-family="sans-serif">{y:.1f}</text>')
 
-
-
-
-
-
-
-    # Vectors
     for v in vs2d:
         x, y = v.coords
         sx, sy = map_point(x, y)
-        svg.append(f'<line x1="{ox}" y1="{oy}" x2="{sx}" y2="{sy}" stroke="blue" stroke-width="2.5" marker-end="url(#arrow)"/>')
+        svg.append(
+            f'<line x1="{ox}" y1="{oy}" x2="{sx}" y2="{sy}" stroke="blue" stroke-width="2.5" marker-end="url(#arrow)"/>'
+        )
 
         if show_coords:
-            svg.append(f'<text x="{sx+8}" y="{sy-8}" font-size="13" font-family="sans-serif">'
-                       f'({x:.2f}, {y:.2f})</text>')
+            svg.append(
+                f'<text x="{sx + 8}" y="{sy - 8}" font-size="13" font-family="sans-serif">'
+                f'({x:.2f}, {y:.2f})</text>'
+            )
 
     svg.append("</svg>")
     return "\n".join(svg)
+
+
+def show_vectors(vectors, **kwargs):
+    svg = plot_vectors(vectors, **kwargs)
+    show_svg(svg)
+    return svg
